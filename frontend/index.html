@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ArchiChat v1</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <script type="module" src="chatbot.js"></script>
+        <script defer src="shadow-dom.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flowise-chat@latest/flowise-chat.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+        <script defer src="dropdowns.js"></script>
+        <script defer src="councils.js"></script>
+        <script defer src="misc.js"></script>
+    </head>
+
+    <body>
+        <div id="pageContainer">
+            <aside>
+                <h2>User Name</h2>
+                <nav>
+                    <ul>
+                        <li>
+                            <img src="img/planning.svg" alt="planning" class="type-icon" />
+                            <p>Planning</p>
+                            <div class="right-arrow-container">
+                                <img src="img/greater-than.svg" class="rightArrow" />
+                            </div>
+                        </li>
+                        <li>
+                            <img src="img/home.svg" alt="home" class="type-icon" />
+                            <p>Building Regs</p>
+                            <div class="right-arrow-container">
+                                <img src="img/greater-than.svg" class="rightArrow" />
+                            </div>
+                        </li>
+                        <li>
+                            <img src="img/saved.svg" alt="saved chats" class="type-icon" />
+                            <p>Saved Chats</p>
+                            <div class="right-arrow-container">
+                                <img src="img/greater-than.svg" class="rightArrow" />
+                            </div>
+                        </li>
+                        <li>
+                            <img src="img/account.svg" alt="account" class="type-icon" />
+                            <p>Account</p>
+                            <div class="right-arrow-container">
+                                <img src="img/greater-than.svg" class="rightArrow" />
+                            </div>
+                        </li>
+                        <li>
+                            <img src="img/help.svg" alt="help" class="type-icon" />
+                            <p>Help / About</p>
+                            <div class="right-arrow-container">
+                                <img src="img/greater-than.svg" class="rightArrow" />
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            <div id="contentContainer">
+                <section id="heading">
+                    <h1>Chat to Planning</h1>
+                    <div class="search-container">
+                        <input type="text" id="searchBox" placeholder="Select Council" autocomplete="off" />
+                        <img src="img/magnify.svg" alt="search icon" class="search-icon" />
+                        <ul id="councilList" class="council-dropdown"></ul>
+                    </div>
+                    <p>Or</p>
+                    <a id="natPolicy" class="button" href="">Chat to National Policy</a>
+                    <a id="signOut" class="button" href="">Sign Out</a>
+                </section>
+                <div id="windowsContainer">
+                    <section id="documents">
+                        <div class="subHeading">
+                            <h3 id="council-title">Council Name</h3>
+                            <p>Chat to the Current Docs</p>
+                        </div>
+                        <div id="previousConversations" class="custom-dropdown">
+                            <div class="dropdown-header">Previous Conversations</div>
+                            <div class="drop-arrow">
+                                <img src="img/right-arrow.svg" />
+                            </div>
+                            <ul class="dropdown-list"></ul>
+                            <input type="hidden" name="previousConversations" required />
+                        </div>
+                        <div id="currentDocuments" class="custom-dropdown">
+                            <div class="dropdown-header">Current Documents</div>
+                            <div class="drop-arrow">
+                                <img src="img/right-arrow.svg" />
+                            </div>
+                            <ul class="dropdown-list"></ul>
+                            <input type="hidden" name="currentDocuments" required />
+                        </div>
+                        <div id="previousDocuments" class="custom-dropdown">
+                            <div class="dropdown-header">Previous Documents</div>
+                            <div class="drop-arrow">
+                                <img src="img/right-arrow.svg" />
+                            </div>
+                            <ul class="dropdown-list"></ul>
+                            <input type="hidden" name="previousDocuments" required />
+                        </div>
+                        <h3 id="document-title">Document Title</h3>
+                        <div id="pdf-viewer">
+                            <div id="controls">
+                                <button id="prev-page">Previous Page</button>
+                                <span id="page-info"></span>
+                                <button id="next-page">Next Page</button>
+                                <button id="fullscreen-btn">Fullscreen</button>
+                            </div>
+                            <div id="canvas-container">
+                                <canvas id="pdf-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div id="pdfEmbed">
+                            <div class="pdfEmbedContainer">
+                                <embed id="pdfEmbedder" src="" type="application/pdf" />
+                            </div>
+                        </div>
+                    </section>
+                    <section id="chatbot">
+                        <div class="subHeading">
+                            <div id="saveChatContainer">
+                                <img id="star" src="img/saved.svg" alt="save this chat" />
+                                <a href="" id="saveChat">Save This Chat</a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

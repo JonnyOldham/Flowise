@@ -1,0 +1,419 @@
+/* Architecture */
+
+body {
+    font-family: Jost, sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+}
+
+#pageContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+#windowsContainer {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: 500;
+    margin-right: 20px;
+}
+
+a {
+    color: inherit;
+}
+
+/* Aside */
+
+aside {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(195, 195, 195);
+    width: 210px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+aside h2 {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    font-weight: 500;
+}
+
+aside ul {
+    padding: 0;
+}
+
+aside li {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+aside li p,
+aside li img {
+    z-index: 1;
+}
+
+aside li::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -10px;
+    right: -10px;
+    bottom: -1px;
+    background-color: #a7a7a7;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+aside li:hover::before {
+    opacity: 1;
+}
+
+aside li::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #a7a7a7;
+}
+
+aside li:last-child::after {
+    content: none;
+}
+
+.type-icon {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.right-arrow-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    width: 25px;
+}
+
+.rightArrow {
+    height: 25px;
+    opacity: 60%;
+}
+
+#contentContainer {
+    flex: 1;
+    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Heading */
+
+#heading {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    height: 40px;
+    position: relative;
+}
+
+#heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1%;
+    width: 98%;
+    height: 1px;
+    background-color: #b4b4b4;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    margin: 0 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+}
+
+#searchBox {
+    width: 95%;
+    padding: 8px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+}
+
+.search-icon {
+    margin-left: auto;
+    padding-right: 10px;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+.council-dropdown {
+    list-style: none;
+    top: 28px;
+    margin-left: -1px;
+    padding: 0;
+    width: 300px;
+    border-radius: 0 0 4px 4px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-top: none;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+    position: absolute;
+    background-color: white;
+    z-index: 10;
+}
+
+.council-dropdown li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.council-dropdown li:hover {
+    background-color: #f0f0f0;
+}
+
+#natPolicy {
+    margin-left: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#signOut {
+    margin-left: auto;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.button {
+    transition: background-color 0.1s ease;
+}
+
+.button:hover {
+    background-color: #d0d0d0;
+}
+
+/* Docs Section */
+
+.subHeading {
+    display: flex;
+    align-items: center;
+    margin-top: -10px;
+    height: 50px;
+}
+
+#saveChatContainer {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.subHeading img {
+    width: 30px;
+}
+
+.subHeading p {
+    margin-left: auto;
+}
+
+#documents {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    flex-basis: 50%;
+    box-sizing: border-box;
+    position: relative;
+    overflow-y: hidden;
+}
+
+.custom-dropdown {
+    position: relative;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+}
+
+.drop-arrow {
+    display: flex;
+    margin-left: auto;
+    opacity: 50%;
+}
+
+.drop-arrow img {
+    height: 25px;
+    transition: transform 0.3s ease;
+}
+
+.custom-dropdown.open .drop-arrow img {
+    transform: rotateX(180deg);
+}
+
+.custom-dropdown .dropdown-header {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.custom-dropdown .dropdown-list {
+    position: absolute;
+    top: 80%;
+    left: 0;
+    right: 0;
+    max-height: 0;
+    overflow: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    z-index: 2;
+}
+
+.custom-dropdown.open .dropdown-list {
+    max-height: 200px;
+    padding: 10px 0;
+}
+
+.dropdown-option {
+    padding: 8px;
+    color: #333;
+    cursor: pointer;
+}
+
+.dropdown-option:hover {
+    background-color: #f0f0f0;
+}
+
+#document-title {
+    font-weight: bold;
+}
+
+#pdf-viewer {
+    overflow: hidden;
+}
+
+#canvas-container {
+    display: flex;
+    justify-content: center;
+    overflow-y: auto;
+    max-height: 100%;
+    border: 1px solid rgb(201, 201, 201);
+    border-radius: 6px;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+}
+
+#controls {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background: #f0f0f0;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Chatbot section */
+
+#saveChat {
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+#saveChatContainer {
+    border-radius: 5px;
+    padding: 5px;
+    transition: background-color 0.1s ease;
+}
+
+#saveChatContainer:hover {
+    background-color: #d0d0d0;
+}
+
+#star {
+    opacity: 50%;
+    width: 20px;
+    padding-right: 5px;
+    transition: opacity 0.2s ease-in;
+}
+
+#star.saved {
+    opacity: 0.8;
+    /* Fully visible when saved */
+}
+
+#star.empty {
+    opacity: 0.5;
+    /* Initially hidden when empty */
+}
+
+#chatbot {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    flex-basis: 50%;
+    box-sizing: border-box;
+}
+
+/* PDF Embed (fullscreen) */
+
+#pdfEmbed {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pdfEmbedContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pdfEmbedder {
+    width: 100%;
+    height: 90%;
+    border: none;
+}
