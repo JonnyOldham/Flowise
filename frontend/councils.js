@@ -150,19 +150,34 @@ const councilTitle = document.getElementById('council-title')
 
 // Function to filter and display council names
 searchBox.addEventListener('focus', () => {
+    searchBox.placeholder = 'Start typing...'
+})
+
+searchBox.addEventListener('input', () => {
+    const query = searchBox.value.trim()
     councilList.innerHTML = ''
-    councils.forEach((council) => {
-        const listItem = document.createElement('li')
-        listItem.textContent = council
-        listItem.addEventListener('click', () => {
-            searchBox.value = council
-            councilList.innerHTML = ''
-            councilList.style.display = 'none'
-            councilTitle.textContent = council
+
+    if (query.length > 0) {
+        councils.forEach((council) => {
+            if (council.toLowerCase().includes(query.toLowerCase())) {
+                const listItem = document.createElement('li')
+                listItem.textContent = council
+
+                listItem.addEventListener('click', () => {
+                    searchBox.value = council
+                    councilList.innerHTML = ''
+                    councilList.style.display = 'none'
+                    councilTitle.textContent = council
+                })
+
+                councilList.appendChild(listItem)
+            }
         })
-        councilList.appendChild(listItem)
-    })
-    councilList.style.display = 'block'
+
+        councilList.style.display = 'block'
+    } else {
+        councilList.style.display = 'none'
+    }
 })
 
 // Filter council names as user types
@@ -191,6 +206,7 @@ searchBox.addEventListener('input', () => {
 document.addEventListener('click', (event) => {
     if (!searchBox.contains(event.target) && !councilList.contains(event.target)) {
         councilList.style.display = 'none'
+        searchBox.placeholder = 'Select Council'
     }
 })
 

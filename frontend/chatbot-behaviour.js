@@ -1,7 +1,5 @@
-function getFileIndex(shadowRoot) {
-    if (!shadowRoot) return 'ShadowRoot not found'
-
-    const fileIndex = shadowRoot.querySelector(
+function getFileIndex() {
+    const fileIndex = document.querySelector(
         'div > div > div.relative.z-10 > div.fixed.inset-0.z-10.overflow-y-auto > div > div > div > pre > span:nth-child(7)'
     )
 
@@ -12,10 +10,9 @@ function getFileIndex(shadowRoot) {
     }
 }
 
-function getPageNumber(shadowRoot) {
-    if (!shadowRoot) return 'ShadowRoot not found'
+function getPageNumber() {
     for (let i = 11; i <= 20; i++) {
-        const currentElement = shadowRoot.querySelector(
+        const currentElement = document.querySelector(
             `div > div > div.relative.z-10 > div.fixed.inset-0.z-10.overflow-y-auto > div > div > div > pre > span:nth-child(${i})`
         )
 
@@ -28,112 +25,107 @@ function getPageNumber(shadowRoot) {
 }
 
 function sourceButtonBehaviour() {
-    const chatbotHost = document.querySelector('flowise-chatbot')
-    if (chatbotHost && chatbotHost.shadowRoot) {
-        const shadowRoot = chatbotHost.shadowRoot
-        const observeSourceButtons = new MutationObserver(() => {
-            const sourceButtonsContainer = shadowRoot.querySelector('div.chatbot-chat-view')
+    const observeSourceButtons = new MutationObserver(() => {
+        const sourceButtonsContainer = document.querySelector('div.chatbot-chat-view')
 
-            if (sourceButtonsContainer) {
-                const messageDivs = sourceButtonsContainer.querySelectorAll(
-                    'div > div > div > div > div.overflow-y-scroll.flex.flex-col.flex-grow.min-w-full.w-full.px-3.pt-\\[70px\\].relative.scrollable-container.chatbot-chat-view.scroll-smooth > div'
-                )
+        if (sourceButtonsContainer) {
+            const messageDivs = sourceButtonsContainer.querySelectorAll(
+                'div > div > div > div > div.overflow-y-scroll.flex.flex-col.flex-grow.min-w-full.w-full.px-3.pt-\\[70px\\].relative.scrollable-container.chatbot-chat-view.scroll-smooth > div'
+            )
 
-                messageDivs.forEach((messageDiv) => {
-                    const sourceButtons = messageDiv.querySelectorAll('span.chatbot-host-bubble[data-testid="host-bubble"]')
+            messageDivs.forEach((messageDiv) => {
+                const sourceButtons = messageDiv.querySelectorAll('span.chatbot-host-bubble[data-testid="host-bubble"]')
 
-                    let messageSourceCount = 1
+                let messageSourceCount = 1
 
-                    sourceButtons.forEach((button) => {
-                        if (!button.classList.contains('prose') && !button.classList.contains('custom-listener')) {
-                            button.textContent = `Source ${messageSourceCount}`
-                            button.classList.add('custom-listener')
+                sourceButtons.forEach((button) => {
+                    if (!button.classList.contains('prose') && !button.classList.contains('custom-listener')) {
+                        button.textContent = `Source ${messageSourceCount}`
+                        button.classList.add('custom-listener')
 
-                            handleButtonClick(button, shadowRoot, messageSourceCount)
+                        handleButtonClick(button)
 
-                            const initialFileIndex = getFileIndex(shadowRoot)
-                            button.fileIndex = initialFileIndex
+                        const initialFileIndex = getFileIndex()
+                        button.fileIndex = initialFileIndex
 
-                            messageSourceCount++
-                        }
-                    })
+                        messageSourceCount++
+                    }
                 })
+            })
+        }
+    })
+
+    observeSourceButtons.observe(document.body, {
+        childList: true,
+        subtree: true
+    })
+
+    const observeAndHideElement = (callback) => {
+        const observer = new MutationObserver((mutationsList, obs) => {
+            for (const mutation of mutationsList) {
+                if (mutation.type === 'childList') {
+                    const targetElement = document.querySelector(
+                        'div > div > div.relative.z-10 > div.fixed.inset-0.z-10.overflow-y-auto > div > div'
+                    )
+                    const targetElement2 = document.querySelector(
+                        'div > div > div.relative.z-10 > div.fixed.inset-0.bg-black.bg-opacity-50.transition-opacity.animate-fade-in'
+                    )
+
+                    if (targetElement) {
+                        const extractedData = targetElement.textContent
+
+                        if (callback) callback(extractedData)
+
+                        targetElement.style.display = 'none'
+                        targetElement2.style.display = 'none'
+
+                        const chatWindowElement = document.querySelector('div > div.fixed.inset-0.z-10.overflow-y-auto > div')
+
+                        if (chatWindowElement) {
+                            chatWindowElement.focus?.()
+                            const simulateClick = () => {
+                                const simulatedClick = new MouseEvent('click', {
+                                    bubbles: true,
+                                    cancelable: true,
+                                    view: window
+                                })
+                                chatWindowElement.dispatchEvent(simulatedClick)
+                            }
+                            setTimeout(simulateClick, 100)
+                        } else {
+                            console.warn('Chat window element not found.')
+                        }
+
+                        obs.disconnect()
+                        break
+                    }
+                }
             }
         })
 
-        observeSourceButtons.observe(shadowRoot, {
+        observer.observe(document.body, {
             childList: true,
             subtree: true
         })
-
-        const observeAndHideElement = (callback) => {
-            const observer = new MutationObserver((mutationsList, obs) => {
-                for (const mutation of mutationsList) {
-                    if (mutation.type === 'childList') {
-                        const targetElement = shadowRoot.querySelector(
-                            'div > div > div.relative.z-10 > div.fixed.inset-0.z-10.overflow-y-auto > div > div'
-                        )
-                        const targetElement2 = shadowRoot.querySelector(
-                            'div > div > div.relative.z-10 > div.fixed.inset-0.bg-black.bg-opacity-50.transition-opacity.animate-fade-in'
-                        )
-
-                        if (targetElement) {
-                            const extractedData = targetElement.textContent
-
-                            if (callback) callback(extractedData)
-
-                            targetElement.style.display = 'none'
-                            targetElement2.style.display = 'none'
-
-                            const chatWindowElement = shadowRoot.querySelector('div > div.fixed.inset-0.z-10.overflow-y-auto > div')
-
-                            if (chatWindowElement) {
-                                chatWindowElement.focus?.()
-                                const simulateClick = () => {
-                                    const simulatedClick = new MouseEvent('click', {
-                                        bubbles: true,
-                                        cancelable: true,
-                                        view: window
-                                    })
-                                    chatWindowElement.dispatchEvent(simulatedClick)
-                                }
-                                setTimeout(simulateClick, 100)
-                            } else {
-                                console.warn('Chat window element not found.')
-                            }
-
-                            obs.disconnect()
-                            break
-                        }
-                    }
-                }
-            })
-
-            observer.observe(shadowRoot, {
-                childList: true,
-                subtree: true
-            })
-        }
-
-        shadowRoot.addEventListener('click', (event) => {
-            const clickedButton = event.target.closest('span.chatbot-host-bubble[data-testid="host-bubble"]')
-            if (clickedButton) {
-                observeAndHideElement()
-            }
-        })
     }
+
+    document.body.addEventListener('click', (event) => {
+        const clickedButton = event.target.closest('span.chatbot-host-bubble[data-testid="host-bubble"]')
+        if (clickedButton) {
+            observeAndHideElement()
+        }
+    })
 }
 
-function handleButtonClick(button, shadowRoot) {
+function handleButtonClick(button) {
     button.addEventListener('click', () => {
         setTimeout(() => {
-            const fileIndex = getFileIndex(shadowRoot)
-            const pageNumber = getPageNumber(shadowRoot)
+            const fileIndex = getFileIndex()
+            const pageNumber = getPageNumber()
             button.fileIndex = fileIndex
             console.log(fileIndex)
             console.log(pageNumber)
             loadPDF(fileIndex, pageNumber)
-            // closePopupWithDelay();
         })
     })
 }
@@ -215,7 +207,6 @@ async function loadPDF(fileIndex, pageNumber) {
             await renderPage(currentPage, pdf, canvas, ctx, totalPages, pageInfo)
         })
 
-        // Scroll Listener
         canvas.addEventListener('wheel', async (event) => {
             if (isRendering || !isCanvasInView(canvas)) return
             event.preventDefault()
@@ -277,4 +268,20 @@ function handleFullscreenButton() {
     })
 }
 
+function hideCloseButton() {
+    const observer = new MutationObserver(() => {
+        const buttonElement = document.querySelector('#chatbot > div > div > button')
+        if (buttonElement) {
+            buttonElement.style.display = 'none'
+            observer.disconnect()
+        }
+    })
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    })
+}
+
+hideCloseButton()
 sourceButtonBehaviour()

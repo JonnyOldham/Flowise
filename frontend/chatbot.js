@@ -1,6 +1,6 @@
 import Chatbot from 'https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js'
-const chatbotContainer = document.getElementById('chatbot')
-const containerWidth = chatbotContainer.clientWidth - 10
+const chatbotContainer = document.getElementById('document-loader')
+const containerWidth = chatbotContainer.clientWidth
 // const containerHeight = chatbotContainer.clientHeight + 40
 // const allSourceDocuments = new Set()
 
@@ -28,7 +28,7 @@ Chatbot.init({
     theme: {
         button: {
             backgroundColor: '#868686',
-            right: 10,
+            right: 0,
             bottom: 0,
             size: 0.001, // Options: small | medium | large | number
             dragAndDrop: false,
@@ -56,7 +56,7 @@ Chatbot.init({
             errorMessage: 'This is a custom error message',
             backgroundColor: '#fff',
             backgroundImage: 'enter image path or link',
-            height: 800,
+            height: 1000,
             width: containerWidth,
             fontSize: 16,
             starterPrompts: ['What is a bot?', 'Who are you?'],
@@ -67,20 +67,20 @@ Chatbot.init({
             botMessage: {
                 backgroundColor: '#f7f8ff',
                 textColor: '#303235',
-                showAvatar: true,
+                showAvatar: false,
                 avatarSrc: 'img/robot.svg'
             },
             userMessage: {
-                backgroundColor: '#3B81F6',
-                textColor: '#ffffff',
-                showAvatar: true,
+                backgroundColor: '#cfe1e8',
+                textColor: '#000',
+                showAvatar: false,
                 avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png'
             },
             textInput: {
                 placeholder: 'Type your question',
                 backgroundColor: '#ffffff',
                 textColor: '#303235',
-                sendButtonColor: '#3B81F6',
+                sendButtonColor: '#cfe1e8',
                 maxChars: 100,
                 maxCharsWarningMessage: 'You exceeded the character limit. Please input less than 50 characters.',
                 autoFocus: false,
@@ -110,3 +110,21 @@ Chatbot.init({
 })
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
+
+const shadowHost = document.querySelector('flowise-chatbot')
+if (shadowHost && shadowHost.shadowRoot) {
+    const chatbotElement = shadowHost.shadowRoot.querySelector('.fixed.sm\\:right-5.rounded-lg')
+
+    if (chatbotElement) {
+        const chatbotContainer = document.getElementById('chatbot')
+        chatbotContainer.appendChild(chatbotElement)
+
+        chatbotElement.style.position = 'relative'
+        chatbotElement.style.width = '100%'
+        chatbotElement.style.height = '100%'
+        chatbotElement.style.maxHeight = '100%'
+        chatbotElement.style.backgroundColor = 'white'
+    } else {
+        console.error('Chatbot UI not found inside shadow DOM.')
+    }
+}

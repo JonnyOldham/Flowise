@@ -1,7 +1,10 @@
 /* Architecture */
 
-body {
+* {
     font-family: Jost, sans-serif;
+}
+
+body {
     margin: 0;
     height: 100vh;
     display: flex;
@@ -19,10 +22,20 @@ body {
     overflow: hidden;
 }
 
+.subHeading {
+    display: flex;
+    align-items: center;
+    margin-top: -10px;
+}
+
 h1 {
-    font-size: 30px;
+    font-size: 35px;
     font-weight: 500;
     margin-right: 20px;
+}
+
+h3 {
+    font-size: 20px;
 }
 
 a {
@@ -109,7 +122,7 @@ aside li:last-child::after {
 
 .rightArrow {
     height: 25px;
-    opacity: 60%;
+    opacity: 70%;
 }
 
 #contentContainer {
@@ -125,7 +138,7 @@ aside li:last-child::after {
     display: flex;
     align-items: center;
     padding: 10px;
-    height: 40px;
+    height: 50px;
     position: relative;
 }
 
@@ -168,7 +181,7 @@ aside li:last-child::after {
 
 .council-dropdown {
     list-style: none;
-    top: 28px;
+    top: 36px;
     margin-left: -1px;
     padding: 0;
     width: 300px;
@@ -177,7 +190,7 @@ aside li:last-child::after {
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     border-top: none;
-    max-height: 150px;
+    max-height: 600px;
     overflow-y: auto;
     display: none;
     position: absolute;
@@ -191,7 +204,7 @@ aside li:last-child::after {
 }
 
 .council-dropdown li:hover {
-    background-color: #f0f0f0;
+    background-color: #cfe1e8;
 }
 
 #natPolicy {
@@ -213,40 +226,21 @@ aside li:last-child::after {
 }
 
 .button:hover {
-    background-color: #d0d0d0;
+    background-color: #cfe1e8;
 }
 
-/* Docs Section */
+/* Document Loader */
 
-.subHeading {
-    display: flex;
-    align-items: center;
-    margin-top: -10px;
-    height: 50px;
-}
-
-#saveChatContainer {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-}
-
-.subHeading img {
-    width: 30px;
-}
-
-.subHeading p {
-    margin-left: auto;
-}
-
-#documents {
+#document-loader {
+    position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     margin: 10px;
     flex-basis: 50%;
     box-sizing: border-box;
-    position: relative;
     overflow-y: hidden;
+    height: 100vh;
 }
 
 .custom-dropdown {
@@ -311,84 +305,141 @@ aside li:last-child::after {
 }
 
 .dropdown-option:hover {
-    background-color: #f0f0f0;
+    background-color: #cfe1e8;
+}
+
+#saveChat {
+    border-radius: 5px;
+    text-decoration: none;
+    width: 110px;
+}
+
+#saveChatContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-radius: 5px;
+    margin-top: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+}
+
+#saveChatContainer:hover {
+    background-color: #cfe1e8;
+}
+
+#star {
+    opacity: 50%;
+    width: 35px;
+    padding-right: 5px;
+}
+
+#chatbot {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 6px;
+    margin-top: auto;
+    margin-bottom: 80px;
+    z-index: 1;
+}
+
+/* Document Viewer */
+
+.subHeading img {
+    width: 30px;
+}
+
+.subHeading p {
+    margin-left: auto;
 }
 
 #document-title {
     font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#document-viewer {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    flex-basis: 50%;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    height: calc(100vh - 89px);
 }
 
 #pdf-viewer {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+    position: relative;
     overflow: hidden;
 }
 
 #canvas-container {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-grow: 1;
     overflow-y: auto;
-    max-height: 100%;
     border: 1px solid rgb(201, 201, 201);
     border-radius: 6px;
+    background: #fff;
 }
 
 canvas {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
     border-radius: 6px;
 }
 
 #controls {
     display: flex;
-    justify-content: space-around;
+    align-items: center;
     padding: 10px;
     background: #f0f0f0;
+    flex-shrink: 0;
 }
 
-button {
-    padding: 5px 10px;
-    cursor: pointer;
+#page-info {
+    position: absolute;
+    left: 10px;
+    margin-right: auto;
 }
 
-/* Chatbot section */
-
-#saveChat {
-    border-radius: 5px;
-    text-decoration: none;
-}
-
-#saveChatContainer {
-    border-radius: 5px;
-    padding: 5px;
-    transition: background-color 0.1s ease;
-}
-
-#saveChatContainer:hover {
-    background-color: #d0d0d0;
-}
-
-#star {
-    opacity: 50%;
-    width: 20px;
-    padding-right: 5px;
-    transition: opacity 0.2s ease-in;
-}
-
-#star.saved {
-    opacity: 0.8;
-    /* Fully visible when saved */
-}
-
-#star.empty {
-    opacity: 0.5;
-    /* Initially hidden when empty */
-}
-
-#chatbot {
+#doc-btn-container {
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    padding: 10px;
-    flex-basis: 50%;
-    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+}
+
+.doc-btn {
+    all: unset;
+    cursor: pointer;
+    margin: 0 6px;
+    height: 30px;
+    width: 30px;
+}
+
+.btn-image {
+    height: 30px;
+    width: 30px;
+}
+
+#pdfEmbed {
+    display: none;
+    /* Hide embed section unless needed */
+}
+
+#page-info {
+    margin-right: auto;
 }
 
 /* PDF Embed (fullscreen) */
